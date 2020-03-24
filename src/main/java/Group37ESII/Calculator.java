@@ -2,7 +2,7 @@ package Group37ESII;
 
 /**
  * @author Group37 ESII
- * @version 1.0
+ * @version 1.1
  * @since 22 march 2020
  *
  */
