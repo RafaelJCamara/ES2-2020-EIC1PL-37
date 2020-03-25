@@ -26,6 +26,8 @@ class CalculatorTest {
 		assertNotEquals(3, c1.subtract(3, 5));
 		assertEquals(1,c1.multiplication(1, 1));
 		assertNotEquals(3, c1.multiplication(3, 5));
+		assertEquals(1.5,c1.division(3, 2));
+		assertNotEquals(3, c1.multiplication(3, 5));
 	}
 
 }
