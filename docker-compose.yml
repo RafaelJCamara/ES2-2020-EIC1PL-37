@@ -1,0 +1,45 @@
+version: '3'
+services:
+  #Database MySql
+  db:
+    image: mysql:5.7
+    restart: always
+    volumes:
+       - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    networks:
+      - back  
+  #WordPress CMS
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:5.4.1
+    restart: always
+    volumes:
+      - ./wp-content:/var/www/html/wp-content 
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    ports:
+      - '8010:80'
+    networks:
+      - back
+      
+    # Java 8 - OpenJdk
+
+  # Alpine 3.8
+  openjdk-8u201:
+    image: jtim/docker-docker-compose-jdk:18.05.0-ce-git-compose-1.21.2-openjdk-8u191
+    build:
+      context: java8/openjdk/8u201
+
+networks:
+  back:
+volumes:
+  db_data:
