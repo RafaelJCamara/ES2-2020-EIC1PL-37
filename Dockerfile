@@ -1,4 +1,4 @@
-FROM openjdk:7
+FROM openjdk:latest
 COPY target/Grupo37ESII-*.jar /demo.jar
 WORKDIR /usr/src/myapp
 CMD ["java","-jar","/demo.jar"]

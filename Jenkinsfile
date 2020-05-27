@@ -14,7 +14,7 @@ stage('Build Java Docker Image Part 1'){
     }  
   
 stage('Build Java Docker Image Part 2'){
-     powershell "docker run -d 8002:8002 helloworld"
+     powershell "docker run -dit 8002:8002 helloworld"
     }      
     
 }
