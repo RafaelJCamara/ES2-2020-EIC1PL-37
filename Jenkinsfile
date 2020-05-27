@@ -1,20 +1,15 @@
-
 node {
 
 stage('Git Checkout') {
-    git 'https://github.com/rjafc-iscteiul/ES2-2020-EIC1PL-37.git'
+    git 'https://github.com/rjafc-iscteiul/ES2-2020-EIC1PL-37'
     }
     
-stage('Build WP and MYSQL Docker Image'){
-     powershell "docker-compose up -d"
+stage('Build Docker Image for Java'){
+     powershell "docker build -t my-java-app ."
     }
-    
-stage('Build Java Docker Image Part 1'){
-     powershell "docker build -t helloworld ."
-    }  
-  
-stage('Build Java Docker Image Part 2'){
-     powershell "docker run -dit 8002:8002 helloworld"
-    }      
-    
+
+stage('Build Docker Image for Java'){
+     powershell "docker run -it --name my-running-app my-java-app"
+    }
+	
 }
