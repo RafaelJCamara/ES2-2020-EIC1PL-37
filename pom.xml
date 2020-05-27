@@ -95,30 +95,9 @@
         </execution>
     </executions>
 </plugin>
- <plugin>
-   <artifactId>maven-deploy-plugin</artifactId>
-   <version>2.8.1</version>
-   <executions>
-      <execution>
-         <id>default-deploy</id>
-         <phase>deploy</phase>
-         <goals>
-            <goal>deploy</goal>
-         </goals>
-      </execution>
-   </executions>
-</plugin>
         </plugins>
         
     </build>
 
 
-	  <distributionManagement>
-	    <repository>
-	      <id>github</id>
-	      <name>ES2-2020-EIC1PL-37</name>
-	      <url>https://github.com/rjafc-iscteiul/ES2-2020-EIC1PL-37</url>
-	    </repository>
-  </distributionManagement>
-  
 </project>
