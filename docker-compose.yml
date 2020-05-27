@@ -30,15 +30,7 @@ services:
       - '8010:80'
     networks:
       - back
-      
-    # Java 8 - OpenJdk
-
-  # Alpine 3.8
-  openjdk-8u201:
-    image: jtim/docker-docker-compose-jdk:18.05.0-ce-git-compose-1.21.2-openjdk-8u191
-    build:
-      context: java8/openjdk/8u201
-
+     
 networks:
   back:
 volumes:
