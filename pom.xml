@@ -115,7 +115,7 @@
 
 	  <distributionManagement>
 	    <repository>
-	      <id>MyGitRepo</id>
+	      <id>github</id>
 	      <name>ES2-2020-EIC1PL-37</name>
 	      <url>https://github.com/rjafc-iscteiul/ES2-2020-EIC1PL-37</url>
 	    </repository>
