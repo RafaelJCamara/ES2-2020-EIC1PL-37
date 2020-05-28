@@ -74,6 +74,7 @@
    	<plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-assembly-plugin</artifactId>
+    <version>3.3.0</version>
     <executions>
         <execution>
             <phase>package</phase>
@@ -82,11 +83,12 @@
             </goals>
             <configuration>
                 <archive>
-                <manifest>
-                    <mainClass>
-                        com.baeldung.executable.ExecutableMavenJar
-                    </mainClass>
-                </manifest>
+	               <manifest>
+	               		<addClasspath>true</addClasspath>
+	                    <mainClass>
+	                        ${Calculator.class}
+	                    </mainClass>
+	                </manifest>
                 </archive>
                 <descriptorRefs>
                     <descriptorRef>jar-with-dependencies</descriptorRef>
