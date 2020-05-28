@@ -8,8 +8,4 @@ stage('Build Docker Image for Java'){
      powershell "docker build -t my-java-app ."
     }
 
-stage('Build Docker Image for Java'){
-     powershell "docker run -it --name my-running-app my-java-app"
-    }
-	
 }
