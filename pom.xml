@@ -83,11 +83,9 @@
             <configuration>
                 <archive>
                 <manifest>
-                    <addClasspath>true</addClasspath>
                     <mainClass>
-                        Calculator
+                        com.baeldung.executable.ExecutableMavenJar
                     </mainClass>
-                    <manifestFile>src/main/resources/custom/MANIFEST.MF</manifestFile>
                 </manifest>
                 </archive>
                 <descriptorRefs>
