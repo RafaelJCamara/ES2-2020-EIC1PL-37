@@ -84,7 +84,8 @@
             <configuration>
                 <archive>
 	               <manifest>
-	                    <mainClass>
+	                    <addClasspath>true</addClasspath>
+	               	    <mainClass>
 	                        Group37ESII.Calculator
 	                    </mainClass>
 	                </manifest>
