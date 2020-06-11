@@ -19,6 +19,15 @@
         <junit.platform.version>1.5.2</junit.platform.version>
     </properties>
  
+ 
+ 	<repositories>
+	   	<repository>
+			<id>icm</id>
+			<name>ICM repository</name>
+			<url>http://maven.icm.edu.pl/artifactory/repo</url>
+		</repository>
+  	</repositories>
+ 
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -26,14 +35,21 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+        
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-runner</artifactId>
             <version>${junit.platform.version}</version>
             <scope>test</scope>
         </dependency>
-        
-      
+
+	<!-- https://mvnrepository.com/artifact/pl.edu.icm.cermine/cermine-impl -->
+	<dependency>
+	    <groupId>pl.edu.icm.cermine</groupId>
+	    <artifactId>cermine-impl</artifactId>
+	    <version>1.12</version>
+	</dependency>
+
     </dependencies>
  
     <build>
@@ -100,6 +116,5 @@
         </plugins>
         
     </build>
-
 
 </project>
