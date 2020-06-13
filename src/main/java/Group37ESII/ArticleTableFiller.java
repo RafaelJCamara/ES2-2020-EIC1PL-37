@@ -22,7 +22,7 @@ import pl.edu.icm.cermine.metadata.model.DocumentMetadata;
  */
 
 
-public class Calculator {
+public class ArticleTableFiller {
     
 	
 	public void showNumberFiles() {
@@ -55,8 +55,6 @@ public class Calculator {
 
 				//Publication year
 				System.out.println("Publication Year");
-				System.out.println(result.getDate(result.getTitle()));
-				System.out.println(result.getDate(result.get));
 
 
 				//Authors
@@ -102,7 +100,7 @@ public class Calculator {
 		String table_ending="</table>";
 		String table=table_beginning+table_header+table_content+table_ending;
 		//create HTML file
-		File f=new File("C:/Users/rafae/OneDrive/Ambiente de Trabalho/ES22/covid19Discoveries/index.html");
+		File f=new File("C:/Users/rafae/OneDrive/Ambiente de Trabalho/ES2_final/html/covid19Discoveries/index.html");
 		
 		BufferedWriter bw;
 		try {
@@ -145,7 +143,7 @@ public class Calculator {
 	
 	public static void main(String[] args){
 	    System.out.println("Hello World :) ");
-	    Calculator c1=new Calculator();
+	    ArticleTableFiller c1=new ArticleTableFiller();
 	    c1.showNumberFiles();
 	    System.out.println("End");
 	}
