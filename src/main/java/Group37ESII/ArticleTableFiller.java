@@ -40,7 +40,7 @@ public class ArticleTableFiller {
 	private FTPFile[] files;
 	private String server = "ftp.drivehq.com";
 	private int port = 21;
-	private String user = "rafaelcamarac@gmail.com";
+	private String user = "rjafc@iscte-iul.pt";
 	private String pass = "abc123!@qwertyasdfghj";
 	private FTPClient ftpClient;
 	
