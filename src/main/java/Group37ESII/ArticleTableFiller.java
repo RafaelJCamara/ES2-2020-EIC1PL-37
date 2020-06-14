@@ -93,7 +93,7 @@ public class ArticleTableFiller {
 		}
 	}
 
-	private void loadMetadataToList() {
+	public void loadMetadataToList() {
 		File file=new File(this.metadataTrackerFileName);
 		if(file.length()!=0) {
 			FileInputStream fi;
@@ -155,7 +155,7 @@ public class ArticleTableFiller {
 		} 
 	}
 
-	private boolean checkMetadataFile(String name) {
+	public boolean checkMetadataFile(String name) {
 		File file=new File(this.metadataTrackerFileName);
 		FileInputStream fi;
 		try {
@@ -188,7 +188,7 @@ public class ArticleTableFiller {
 		}
 	}
 
-	private static void showServerReply(FTPClient ftpClient) {
+	public static void showServerReply(FTPClient ftpClient) {
 		String[] replies = ftpClient.getReplyStrings();
 		if (replies != null && replies.length > 0) {
 			for (String aReply : replies) {
@@ -250,6 +250,15 @@ public class ArticleTableFiller {
 		return tableContent;
 	}
 
+	
+	public FTPFile[] getFiles() {
+		return this.files;
+	}
+	
+	public FTPClient getClient() {
+		return this.ftpClient;
+	}
+	
 	public static void main(String[] args){
 		ArticleTableFiller c1=new ArticleTableFiller();
 		c1.showNumberFiles();
