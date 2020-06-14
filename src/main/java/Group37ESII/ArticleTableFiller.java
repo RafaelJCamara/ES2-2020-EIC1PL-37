@@ -4,9 +4,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.SocketException;
 import java.util.LinkedList;
 
@@ -43,9 +46,12 @@ public class ArticleTableFiller {
 	private String user = "rjafc@iscte-iul.pt";
 	private String pass = "abc123!@qwertyasdfghj";
 	private FTPClient ftpClient;
-	
+	private String metadataTrackerFileName="metatracker.txt";
+	private LinkedList<ArticleInfo> article_info=new LinkedList<ArticleInfo>();
+
+
 	public ArticleTableFiller() {
-		
+
 		boolean success;
 		try {
 			ftpClient = new FTPClient();
@@ -64,16 +70,48 @@ public class ArticleTableFiller {
 			}
 			files = ftpClient.listFiles("/covid19");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		showServerReply(ftpClient);
+
+		//create metadata tracker file
+		createMetadataFile();
+	}
+
+	public void createMetadataFile() {
+		File myObj = new File(this.metadataTrackerFileName);
+		try {
+			if (myObj.createNewFile()) {
+				System.out.println("File created: " + myObj.getName());
+			} else {
+				System.out.println("File already exists.");
+				//load metadata to list
+				loadMetadataToList();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void loadMetadataToList() {
+		File file=new File(this.metadataTrackerFileName);
+		if(file.length()!=0) {
+			FileInputStream fi;
+			try {
+				fi = new FileInputStream(file);
+				ObjectInputStream oi = new ObjectInputStream(fi);		
+				LinkedList<ArticleInfo> list = (LinkedList<ArticleInfo>) oi.readObject();
+				for(ArticleInfo ai:list) {
+					this.article_info.add(ai);
+				}
+
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			} 
+		}
 	}
 
 	public void showNumberFiles() {
-
-		LinkedList<ArticleInfo> article_info=new LinkedList<ArticleInfo>();
-
 		//	source for getting number of files in a directory in Java: 
 		//	https://stackoverflow.com/questions/687444/counting-the-number-of-files-in-a-directory-using-java
 
@@ -82,54 +120,70 @@ public class ArticleTableFiller {
 			extractor = new ContentExtractor();
 
 			//Extract metadata
-			//for each file creates an ArticleInfo object			
-			for(FTPFile file:files) {		
-				ftpClient.connect(server, port);
-				ftpClient.login(user, pass);
-				
-				//mudar isso para ir buscar ao servidor ftp
-//				InputStream inputStream = new FileInputStream("C:/Users/rafae/git/ES2-2020-EIC1PL-37/covid19/"+file.getName());
-				InputStream inputStream = ftpClient.retrieveFileStream("/covid19/"+file.getName());
-				
-				
-				extractor.setPDF(inputStream);
-				DocumentMetadata result = extractor.getMetadata();
+			//for each file creates an ArticleInfo object
 
-				//Article title
-				System.out.println("Title");
-				System.out.println(result.getTitle());
-				//Journal name
-				System.out.println("Journal Name");
-				System.out.println(result.getJournal());
+			for(FTPFile file:files) {
 
-				//Publication year
-				System.out.println("Publication Year");
+				if(!(checkMetadataFile(file.getName()))) {
+					ftpClient.connect(server, port);
+					ftpClient.login(user, pass);
 
+					//Cermine
+					InputStream inputStream = ftpClient.retrieveFileStream("/covid19/"+file.getName());
+					extractor.setPDF(inputStream);
+					DocumentMetadata result = extractor.getMetadata();
 
-				//Authors
-				System.out.println("Authors");
-				LinkedList<String> article_authors=new LinkedList<String>();
-				for(DocumentAuthor author:result.getAuthors()) {
-					System.out.println(author.getName());
-					article_authors.add(author.getName());
+					//Authors
+					LinkedList<String> article_authors=new LinkedList<String>();
+					for(DocumentAuthor author:result.getAuthors()) {
+						article_authors.add(author.getName());
+					}
+
+					//restart extractor
+					extractor = new ContentExtractor();
+
+					article_info.add(new ArticleInfo(result.getTitle(), result.getJournal(), "2020", article_authors, file.getName()));	
 				}
 
-				extractor = new ContentExtractor();
-
-				article_info.add(new ArticleInfo(result.getTitle(), result.getJournal(), "2020", article_authors, file.getName()));				
 			}
 
-			// creates the HTML table			
+			this.writeToFile();
 			this.createHtmlTable(article_info);
+			
+		} catch (AnalysisException | IOException e) {
+			e.printStackTrace();
+		} 
+	}
 
-		} catch (AnalysisException e) {
-			// TODO Auto-generated catch block
+	private boolean checkMetadataFile(String name) {
+		File file=new File(this.metadataTrackerFileName);
+		FileInputStream fi;
+		try {
+			if(file.length()!=0) {
+				fi = new FileInputStream(file);
+				ObjectInputStream oi = new ObjectInputStream(fi);
+				LinkedList<ArticleInfo> list = (LinkedList<ArticleInfo>) oi.readObject();
+				for(ArticleInfo ai:list) {
+					if(ai.getFileName().equals(name)) {
+						return true;
+					}
+				}
+			}
+		} catch (IOException | ClassNotFoundException e){
 			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} 
+		return false;
+	}
+
+	public void writeToFile() {
+		FileOutputStream f;
+		try {
+			f = new FileOutputStream(new File(this.metadataTrackerFileName));
+			ObjectOutputStream o = new ObjectOutputStream(f);
+			o.writeObject(this.article_info);
+			o.close();
+			f.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -166,7 +220,6 @@ public class ArticleTableFiller {
 			bw.append(table);
 			bw.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -198,9 +251,7 @@ public class ArticleTableFiller {
 	}
 
 	public static void main(String[] args){
-		System.out.println("Hello World :) ");
 		ArticleTableFiller c1=new ArticleTableFiller();
 		c1.showNumberFiles();
-		System.out.println("End");
 	}
 }

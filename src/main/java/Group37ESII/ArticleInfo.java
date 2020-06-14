@@ -3,7 +3,7 @@ package Group37ESII;
 import java.io.Serializable;
 import java.util.LinkedList;
 
-public class ArticleInfo{
+public class ArticleInfo implements Serializable{
 
 	private String article_title;
 	private String journal_name;
