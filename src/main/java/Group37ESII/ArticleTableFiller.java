@@ -149,7 +149,7 @@ public class ArticleTableFiller {
 
 			this.writeToFile();
 			this.createHtmlTable(article_info);
-			
+
 		} catch (AnalysisException | IOException e) {
 			e.printStackTrace();
 		} 
@@ -250,15 +250,15 @@ public class ArticleTableFiller {
 		return tableContent;
 	}
 
-	
+
 	public FTPFile[] getFiles() {
 		return this.files;
 	}
-	
+
 	public FTPClient getClient() {
 		return this.ftpClient;
 	}
-	
+
 	public static void main(String[] args){
 		ArticleTableFiller c1=new ArticleTableFiller();
 		c1.showNumberFiles();

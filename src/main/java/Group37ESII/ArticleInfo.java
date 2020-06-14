@@ -10,7 +10,7 @@ public class ArticleInfo implements Serializable{
 	private String publication_year;
 	private LinkedList<String> article_authors=new LinkedList<String>();
 	private String filename;
-	
+
 	public ArticleInfo(String article_title, String journal_name, String publication_year, LinkedList<String> article_authors, String filename) {
 		this.article_title = article_title;
 		this.journal_name = journal_name;
@@ -34,9 +34,9 @@ public class ArticleInfo implements Serializable{
 	public LinkedList<String> getArticle_authors() {
 		return article_authors;
 	}
-	
+
 	public String getFileName() {
 		return filename;
 	}
-	
+
 }
