@@ -30,7 +30,7 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 
 /**
- * @author Group37 ESII
+ * @author Rafael Câmara, student number 82036
  * @version 1.1
  * @since 22 march 2020
  *
@@ -50,6 +50,9 @@ public class ArticleTableFiller {
 	private LinkedList<ArticleInfo> article_info=new LinkedList<ArticleInfo>();
 
 
+	/**
+	 * Constructor
+	 */
 	public ArticleTableFiller() {
 
 		boolean success;
@@ -78,6 +81,9 @@ public class ArticleTableFiller {
 		createMetadataFile();
 	}
 
+	/**
+	 * Creates a .txt metadata file to keep track of previously extracted metadata from files
+	 */
 	public void createMetadataFile() {
 		File myObj = new File(this.metadataTrackerFileName);
 		try {
@@ -93,6 +99,9 @@ public class ArticleTableFiller {
 		}
 	}
 
+	/**
+	 * Loads metadata from the metadata file to the articles array
+	 */
 	public void loadMetadataToList() {
 		File file=new File(this.metadataTrackerFileName);
 		if(file.length()!=0) {
@@ -111,6 +120,9 @@ public class ArticleTableFiller {
 		}
 	}
 
+	/**
+	 * Like an init method for this object
+	 */
 	public void showNumberFiles() {
 		//	source for getting number of files in a directory in Java: 
 		//	https://stackoverflow.com/questions/687444/counting-the-number-of-files-in-a-directory-using-java
@@ -155,6 +167,12 @@ public class ArticleTableFiller {
 		} 
 	}
 
+	/**
+	 * Checks if a file has had metadata stored previously
+	 * 
+	 * @param name Name of the file
+	 * @return If a file has stored metadata
+	 */
 	public boolean checkMetadataFile(String name) {
 		File file=new File(this.metadataTrackerFileName);
 		FileInputStream fi;
@@ -175,6 +193,10 @@ public class ArticleTableFiller {
 		return false;
 	}
 
+	
+	/**
+	 * Writes the article list to the metadata file 
+	 */
 	public void writeToFile() {
 		FileOutputStream f;
 		try {
@@ -197,7 +219,13 @@ public class ArticleTableFiller {
 		}
 	}
 
-	public void createHtmlTable(LinkedList<ArticleInfo> article_info) {
+	/**
+	 * Creates an HTML table from the articles stored on the array
+	 * 
+	 * @param article_info List of the stored articles
+	 * 
+	 */
+	public void createHtmlTable(LinkedList<ArticleInfo> article_info) throws IOException {
 		//source: https://www.youtube.com/watch?v=pV0v_3YRQoM
 		String html="<h1>Covid Articles</h1>";
 		String table_beginning="<table>";
@@ -224,7 +252,13 @@ public class ArticleTableFiller {
 		}
 	}
 
-	public String tableContent(LinkedList<ArticleInfo> article_info) {
+	/**
+	 * Computes every row that will be displayed on the HTML table
+	 * 
+	 * @param article_info List of stored articles
+	 * @return A table row
+	 */
+	public String tableContent(LinkedList<ArticleInfo> article_info) throws IOException {
 		String tableContent="";
 		String tableLine_beginning="<tr>";
 		String tableLine_ending="</tr>";
@@ -251,10 +285,16 @@ public class ArticleTableFiller {
 	}
 
 
+	/**
+	 * @return Array of the FTP files stored on the server
+	 */
 	public FTPFile[] getFiles() {
 		return this.files;
 	}
 
+	/**
+	 * @return The current FTP client in use
+	 */
 	public FTPClient getClient() {
 		return this.ftpClient;
 	}
